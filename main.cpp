@@ -14,9 +14,6 @@
 #include <vector>
 #include <map>
 using namespace std;
-
-
-
 //тип события: въезд-выезд
 enum class ActionType {
     CarIn,
@@ -73,6 +70,9 @@ bool compareMoments(pair<string, int> cur, pair<string, int> next) {
 //@brief ф-ия поиска максимального кол-ва автомобилей на стоянке
 //@param v список пар "въезд-выезд" автомобилей на стоянку
 pair<string, int> get_max(const vector<Period> &v) {
+    if ( v.empty() ) {
+	throw invalid_argument("dataset is empty");
+    } 
     vector<Action> actions;
     //Заполним список событий actions
     for_each(begin(v), end(v), [&actions] (const Period & el){
@@ -110,7 +110,6 @@ pair<string, int> get_max(const vector<Period> &v) {
     });
 
     auto max = std::max_element(begin(parkingSystem), end(parkingSystem), compareMoments);
-    std::cout<<"Timestamp: "<<(*max).first<< "  Number: "<<(*max).second<<endl;
     return *max;
 }
 
@@ -127,8 +126,12 @@ int main(int argc, char *argv[])
         {"09:10", "23:00"},
         {"17:00", "17:20"},
     };
-
-    auto max =  get_max(v);
-    cout<<"Max timestamp: "<<max.first<<" number of cars: "<< max.second;	
+    try {
+    	auto max =  get_max(v);
+    	cout<<"Max timestamp: "<<max.first<<" number of cars: "<< max.second;	
+   }
+   catch(std::invalid_argument &e) {
+   	cerr << "Incorrect dataset: "<< e.what() <<endl;
+   }
 }
 
