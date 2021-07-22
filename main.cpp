@@ -7,12 +7,13 @@
  * зафиксировали выезд - 1 машина.
 */
 
-#include <QCoreApplication>
 #include <iostream>
-using namespace std;
 #include <algorithm>
 #include <functional>
 #include <iostream>
+#include <vector>
+#include <map>
+using namespace std;
 
 
 
@@ -109,13 +110,12 @@ pair<string, int> get_max(const vector<Period> &v) {
     });
 
     auto max = std::max_element(begin(parkingSystem), end(parkingSystem), compareMoments);
-    std::cout<<"Timestamp: "<<(*max).first<< "Number: "<<(*max).second<<endl;
+    std::cout<<"Timestamp: "<<(*max).first<< "  Number: "<<(*max).second<<endl;
     return *max;
 }
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
     std::vector<Period> v = {
         {"11:11", "11:50"},
         {"11:00", "12:00"},
@@ -129,6 +129,6 @@ int main(int argc, char *argv[])
     };
 
     auto max =  get_max(v);
-    return a.exec();
+    cout<<"Max timestamp: "<<max.first<<" number of cars: "<< max.second;	
 }
 
